@@ -15,25 +15,25 @@ public class CustomerClient {
 
     public Customer createCustomer(CustomerDTO customerDTO){
 
-        return restTemplate.postForObject("http://localhost:8081/customers/",customerDTO,Customer.class);
+        return restTemplate.postForObject("http://localhost:8081/customer",customerDTO,Customer.class);
 
     }
 
-    public Customer getCustomer(Long id){
+    public Customer readCustomer(Long customerId){
 
-        return restTemplate.getForObject("http://localhost:8081/customers/"+id,Customer.class);
-
-    }
-
-    public void updateCustomer(CustomerDTO customerDTO){
-
-        restTemplate.put("http://localhost:8081/customers/",customerDTO);
+        return restTemplate.getForObject("http://localhost:8081/customer/"+customerId,Customer.class);
 
     }
 
-    public void deleteCustomer(Long id){
+    public void updateCustomer(Long customerId, CustomerDTO customerDTO){
 
-        restTemplate.delete("http://localhost:8081/customers/"+id);
+        restTemplate.put("http://localhost:8081/customer/"+customerId,customerDTO);
+
+    }
+
+    public void deleteCustomer(Long customerId){
+
+        restTemplate.delete("http://localhost:8081/customer/"+customerId);
 
     }
 

@@ -1,6 +1,7 @@
 package com.aravindcz.listingservice.service;
 
 import com.aravindcz.listingservice.dto.ListingDTO;
+import com.aravindcz.listingservice.dto.ListingRabbitMQDTO;
 import com.aravindcz.listingservice.model.Listing;
 import com.aravindcz.listingservice.repository.ListingRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,22 +21,23 @@ public class ListingService {
     ObjectMapper objectMapper;
 
 
-    public void createListing(ListingDTO listingDTO){
+    public Listing createListing(ListingDTO listingDTO){
 
         Listing listing = convertListingDTOToListing(listingDTO);
-        listingRepository.save(listing);
+        return listingRepository.save(listing);
+
 
     }
 
-    public ListingDTO getListing(String listingId){
+    public Listing readListing(String listingId){
 
-        return convertListingToListingDTO(listingRepository.findById(listingId).get());
+        return listingRepository.findById(listingId).get();
 
     }
 
-    public void updateListing(ListingDTO listingDTO){
+    public void updateListing(ListingRabbitMQDTO listingRabbitMQDTO){
 
-        Listing listing = convertListingDTOToListing(listingDTO);
+        Listing listing = convertListingRabbitMQDTOToListing(listingRabbitMQDTO);
         listingRepository.save(listing);
 
     }
@@ -50,8 +52,6 @@ public class ListingService {
     private Listing convertListingDTOToListing(ListingDTO listingDTO){
 
         Listing listing = objectMapper.convertValue(listingDTO,Listing.class);
-        listing.setCreatedAt(String.valueOf(new Timestamp(System.currentTimeMillis())));
-        listing.setUpdatedAt(String.valueOf(new Timestamp(System.currentTimeMillis())));
 
         return listing;
     }
@@ -62,5 +62,10 @@ public class ListingService {
         ListingDTO listingDTO = objectMapper.convertValue(listing,ListingDTO.class);
 
         return listingDTO;
+    }
+
+    private Listing convertListingRabbitMQDTOToListing(ListingRabbitMQDTO listingRabbitMQDTO){
+        Listing listing = objectMapper.convertValue(listingRabbitMQDTO,Listing.class);
+        return listing;
     }
 }

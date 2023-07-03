@@ -29,16 +29,17 @@ public class CustomerService {
 
     }
 
-    public void updateCustomer(CustomerDTO customerDTO){
+    public void updateCustomer(Long customerId,CustomerDTO customerDTO){
 
         Customer customer = convertCustomerDTOToCustomer(customerDTO);
+        customer.setId(customerId);
         customerRepository.save(customer);
 
     }
 
-    public void deleteCustomer(Long id){
+    public void deleteCustomer(Long customerId){
 
-        customerRepository.deleteById(id);
+        customerRepository.deleteById(customerId);
 
     }
 

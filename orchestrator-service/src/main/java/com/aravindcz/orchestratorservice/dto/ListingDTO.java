@@ -11,7 +11,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ListingDTO implements Serializable {
 
-    private String listingName;
-    private String listingDescription;
+    private String name;
+
+    private String description;
 
 }

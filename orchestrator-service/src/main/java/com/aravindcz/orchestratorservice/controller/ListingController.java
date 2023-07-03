@@ -17,31 +17,30 @@ public class ListingController {
 
 
     @PostMapping("")
-    public String createListing(@RequestBody ListingDTO listingDTO){
+    public Listing createListing(@RequestBody ListingDTO listingDTO){
 
-        listingService.createListing(listingDTO);
-        return "Listing successfully created";
+        return listingService.createListing(listingDTO);
 
     }
 
 
     @GetMapping("/{listingId}")
-    public ListingDTO getListing(@PathVariable String listingId){
+    public Listing getListing(@PathVariable("listingId") Long listingId){
 
-        return listingService.getListing(listingId);
+        return listingService.readListing(listingId);
 
     }
 
-    @PutMapping("")
-    public String updateListing(@RequestBody ListingDTO listingDTO){
+    @PutMapping("/{listingId}")
+    public String updateListing(@PathVariable("listingId") Long listingId, @RequestBody ListingDTO listingDTO){
 
-        listingService.updateListing(listingDTO);
+        listingService.updateListing(listingId, listingDTO);
         return "Listing successfully updated";
 
     }
 
-    @DeleteMapping("/{lisitngId}")
-    public String deleteListing(@PathVariable String listingId){
+    @DeleteMapping("/{listingId}")
+    public String deleteListing(@PathVariable("listingId") String listingId){
 
         listingService.deleteListing(listingId);
         return "Listing successfully deleted";

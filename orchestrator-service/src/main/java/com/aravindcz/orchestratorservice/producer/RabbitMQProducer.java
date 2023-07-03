@@ -1,6 +1,7 @@
 package com.aravindcz.orchestratorservice.producer;
 
 import com.aravindcz.orchestratorservice.dto.ListingDTO;
+import com.aravindcz.orchestratorservice.dto.ListingRabbitMQDTO;
 import com.aravindcz.orchestratorservice.model.Listing;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,6 @@ public class RabbitMQProducer {
     @Value("${spring.rabbitmq.directExchange}")
     private String exchange;
 
-    @Value("${spring.rabbitmq.createQueue}")
-    private String createQueue;
-
     @Value("${spring.rabbitmq.updateQueue}")
     private String updateQueue;
 
@@ -28,16 +26,10 @@ public class RabbitMQProducer {
 
 
 
-    public void createListing(ListingDTO listingDTO){
 
-        rabbitTemplate.convertAndSend(exchange,createQueue,listingDTO);
+    public void updateListing(ListingRabbitMQDTO listingRabbitMQDTO){
 
-    }
-
-
-    public void updateListing(ListingDTO listingDTO){
-
-        rabbitTemplate.convertAndSend(exchange,updateQueue,listingDTO);
+        rabbitTemplate.convertAndSend(exchange,updateQueue,listingRabbitMQDTO);
 
     }
 

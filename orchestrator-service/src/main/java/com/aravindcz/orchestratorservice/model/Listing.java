@@ -13,14 +13,13 @@ import java.io.Serializable;
 public class Listing implements Serializable {
 
 
-    private String listingId;
+    private String id;
 
-    private String listingName;
+    private String name;
 
-    private String listingDescription;
+    private String description;
 
-    private String createdAt;
 
-    private String updatedAt;
+
 
 }

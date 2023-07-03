@@ -17,25 +17,25 @@ public class CustomerService {
 
     public Customer createCustomer(CustomerDTO customerDTO){
 
-        Customer customer = customerClient.createCustomer(customerDTO);
-        return customer;
-    }
-
-    public Customer readCustomer(Long id){
-
-        return customerClient.getCustomer(id);
+        return customerClient.createCustomer(customerDTO);
 
     }
 
-    public void updateCustomer(CustomerDTO customerDTO){
+    public Customer readCustomer(Long customerId){
 
-        customerClient.updateCustomer(customerDTO);
+        return customerClient.readCustomer(customerId);
 
     }
 
-    public void deleteCustomer(Long id){
+    public void updateCustomer(Long customerId, CustomerDTO customerDTO){
 
-        customerClient.deleteCustomer(id);
+        customerClient.updateCustomer(customerId, customerDTO);
+
+    }
+
+    public void deleteCustomer(Long customerId){
+
+        customerClient.deleteCustomer(customerId);
 
     }
 

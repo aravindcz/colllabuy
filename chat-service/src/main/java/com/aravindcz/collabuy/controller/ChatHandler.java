@@ -1,9 +1,6 @@
 package com.aravindcz.collabuy.controller;
 
 import com.aravindcz.collabuy.model.Chat;
-import com.aravindcz.collabuy.model.SocketMessage;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,29 +42,12 @@ public class ChatHandler extends TextWebSocketHandler {
         sendMessageToAllOtherMembers(chat,message);
 
 
-
-
     }
 
 
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 
         removeWebsocketSessionFromMap(session);
-
-    }
-
-    @KafkaListener(topics = "chat",groupId = "chatGroup")
-    public void listenChats(Chat chat) throws IOException {
-
-        long listingId = chat.getListingId();
-
-        String jsonChat = objectMapper.writeValueAsString(chat);
-        TextMessage textMessage = new TextMessage(jsonChat);
-
-        List<WebSocketSession> webSocketSessionList = productIdToActiveWebsocketSessionsMap.get(listingId);
-
-        for(WebSocketSession session : webSocketSessionList)
-            session.sendMessage(textMessage);
 
     }
 
@@ -81,25 +61,6 @@ public class ChatHandler extends TextWebSocketHandler {
 
         if(!webSocketSessionList.contains(session))
             webSocketSessionList.add(session);
-
-    }
-
-    private void removeWebsocketSessionFromMap(WebSocketSession session){
-
-        for(long productId : productIdToActiveWebsocketSessionsMap.keySet()){
-            for(WebSocketSession savedSession : productIdToActiveWebsocketSessionsMap.get(productId)){
-                if(savedSession == session)
-                    productIdToActiveWebsocketSessionsMap.get(productId).remove(session);
-            }
-        }
-
-    }
-
-    private void sendMessageToAllOtherMembers(Chat chat,TextMessage message) throws IOException {
-
-
-        kafkaTemplate.send("chat",chat);
-
 
     }
 
@@ -136,6 +97,46 @@ public class ChatHandler extends TextWebSocketHandler {
 
 
     }
+
+
+    @KafkaListener(topics = "chat",groupId = "chat")
+    public void listenChats(Chat chat) throws IOException {
+
+        long listingId = chat.getListingId();
+
+        String jsonChat = objectMapper.writeValueAsString(chat);
+        TextMessage textMessage = new TextMessage(jsonChat);
+
+        List<WebSocketSession> webSocketSessionList = productIdToActiveWebsocketSessionsMap.get(listingId);
+
+        for(WebSocketSession session : webSocketSessionList)
+            session.sendMessage(textMessage);
+
+    }
+
+    private void sendMessageToAllOtherMembers(Chat chat,TextMessage message) throws IOException {
+
+
+        kafkaTemplate.send("chat",chat);
+
+
+    }
+
+
+
+    private void removeWebsocketSessionFromMap(WebSocketSession session){
+
+        for(long productId : productIdToActiveWebsocketSessionsMap.keySet()){
+            for(WebSocketSession savedSession : productIdToActiveWebsocketSessionsMap.get(productId)){
+                if(savedSession == session)
+                    productIdToActiveWebsocketSessionsMap.get(productId).remove(session);
+            }
+        }
+
+    }
+
+
+
 
 
 }

@@ -2,7 +2,10 @@ package com.aravindcz.orchestratorservice.service;
 
 
 import com.aravindcz.orchestratorservice.dto.ListingDTO;
+import com.aravindcz.orchestratorservice.dto.ListingRabbitMQDTO;
+import com.aravindcz.orchestratorservice.model.Listing;
 import com.aravindcz.orchestratorservice.producer.RabbitMQProducer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,23 +21,26 @@ public class ListingService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
-    public void createListing(ListingDTO listingDTO){
+    public Listing createListing(ListingDTO listingDTO){
 
-        rabbitMQProducer.createListing(listingDTO);
-
-    }
-
-    public ListingDTO getListing(String listingId){
-
-        return restTemplate.getForObject("http://localhost:8082/listing/"+listingId,ListingDTO.class);
+        return restTemplate.postForObject("http://localhost:8082/listing",listingDTO,Listing.class);
 
     }
 
-    public void updateListing(ListingDTO listingDTO){
+    public Listing readListing(Long listingId){
 
-        rabbitMQProducer.updateListing(listingDTO);
+        return restTemplate.getForObject("http://localhost:8082/listing/"+listingId,Listing.class);
+
+    }
+
+    public void updateListing(Long listingId, ListingDTO listingDTO){
+
+        ListingRabbitMQDTO listingRabbitMQDTO = convertListingIdAndDTOToListingRabbitMQDTO(listingId,listingDTO);
+        rabbitMQProducer.updateListing(listingRabbitMQDTO);
 
     }
 
@@ -43,6 +49,13 @@ public class ListingService {
 
         rabbitMQProducer.deleteListing(listingId);
 
+    }
+
+
+    private ListingRabbitMQDTO convertListingIdAndDTOToListingRabbitMQDTO(Long listingId, ListingDTO listingDTO){
+        ListingRabbitMQDTO listingRabbitMQDTO = objectMapper.convertValue(listingDTO,ListingRabbitMQDTO.class);
+        listingRabbitMQDTO.setId(listingId);
+        return listingRabbitMQDTO;
     }
 
 }

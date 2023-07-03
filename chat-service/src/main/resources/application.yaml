@@ -1,0 +1,8 @@
+
+spring:
+  kafka:
+    bootstrap-servers: 192.168.144.128:9092
+    consumer:
+      group-id: chat
+
+

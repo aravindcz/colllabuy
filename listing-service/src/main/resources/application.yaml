@@ -1,0 +1,17 @@
+couchbase:
+  bucket: listing
+  hostname: localhost
+  password: password
+  username: Administrator
+server:
+  port: 8082
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  rabbitmq:
+    deleteQueue: delete
+    directExchange: listing
+    host: 192.168.144.128
+    password: guest
+    updateQueue: update
+    username: guest

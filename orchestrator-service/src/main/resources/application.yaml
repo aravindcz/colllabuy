@@ -1,0 +1,11 @@
+spring:
+ rabbitmq:
+  host: 192.168.144.128
+  username: guest
+  password: guest
+  directExchange: listing
+  updateQueue: update
+  deleteQueue: delete
+
+
+

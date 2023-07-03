@@ -19,14 +19,11 @@ public class Listing implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationStrategy.UNIQUE)
-    private String listingId;
+    private String id;
     @Field
-    private String listingName;
+    private String name;
     @Field
-    private String listingDescription;
-    @Field
-    private String createdAt;
-    @Field
-    private String updatedAt;
+    private String description;
+
 
 }

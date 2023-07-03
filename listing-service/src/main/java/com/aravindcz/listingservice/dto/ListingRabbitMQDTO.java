@@ -9,8 +9,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ListingDTO implements Serializable {
+public class ListingRabbitMQDTO implements Serializable {
 
+    private Long id;
     private String name;
     private String description;
 

@@ -7,37 +7,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/customer")
 public class CustomerController {
 
 
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public Customer createCustomer(@RequestBody CustomerDTO customerDTO){
 
         return customerService.createCustomer(customerDTO);
 
     }
 
-    @GetMapping("/{id}")
-    public Customer getCustomer(@PathVariable("id") Long id){
+    @GetMapping("/{customerId}")
+    public Customer readCustomer(@PathVariable("customerId") Long customerId){
 
-        return customerService.readCustomer(id);
+        return customerService.readCustomer(customerId);
 
     }
 
-    @PutMapping("/")
-    public void updateCustomer(@RequestBody CustomerDTO customerDTO){
+    @PutMapping("/{customerId}")
+    public void updateCustomer(@PathVariable("customerId") Long customerId,@RequestBody CustomerDTO customerDTO){
 
-        customerService.updateCustomer(customerDTO);
+        customerService.updateCustomer(customerId,customerDTO);
     }
 
-    @DeleteMapping("/id")
-    public void deleteCustomer(@PathVariable("id") Long id){
+    @DeleteMapping("/{customerId}")
+    public void deleteCustomer(@PathVariable("customerId") Long customerId){
 
-        customerService.deleteCustomer(id);
+        customerService.deleteCustomer(customerId);
 
     }
 

@@ -4,10 +4,7 @@ import com.aravindcz.listingservice.dto.ListingDTO;
 import com.aravindcz.listingservice.model.Listing;
 import com.aravindcz.listingservice.service.ListingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/listing")
@@ -17,10 +14,15 @@ public class ListingController {
     @Autowired
     private ListingService listingService;
 
-    @GetMapping("/{listingId}")
-    public ListingDTO getListing(@PathVariable String listingId){
+    @PostMapping("")
+    public Listing createListing(@RequestBody ListingDTO listingDTO){
+        return listingService.createListing(listingDTO);
+    }
 
-        return listingService.getListing(listingId);
+    @GetMapping("/{listingId}")
+    public Listing readListing(@PathVariable("listingId") String listingId){
+
+        return listingService.readListing(listingId);
 
     }
 
