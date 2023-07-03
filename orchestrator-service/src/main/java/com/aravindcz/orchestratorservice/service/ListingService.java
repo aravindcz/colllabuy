@@ -31,13 +31,13 @@ public class ListingService {
 
     }
 
-    public Listing readListing(Long listingId){
+    public Listing readListing(String listingId){
 
         return restTemplate.getForObject("http://localhost:8082/listing/"+listingId,Listing.class);
 
     }
 
-    public void updateListing(Long listingId, ListingDTO listingDTO){
+    public void updateListing(String listingId, ListingDTO listingDTO){
 
         ListingRabbitMQDTO listingRabbitMQDTO = convertListingIdAndDTOToListingRabbitMQDTO(listingId,listingDTO);
         rabbitMQProducer.updateListing(listingRabbitMQDTO);
@@ -52,7 +52,7 @@ public class ListingService {
     }
 
 
-    private ListingRabbitMQDTO convertListingIdAndDTOToListingRabbitMQDTO(Long listingId, ListingDTO listingDTO){
+    private ListingRabbitMQDTO convertListingIdAndDTOToListingRabbitMQDTO(String listingId, ListingDTO listingDTO){
         ListingRabbitMQDTO listingRabbitMQDTO = objectMapper.convertValue(listingDTO,ListingRabbitMQDTO.class);
         listingRabbitMQDTO.setId(listingId);
         return listingRabbitMQDTO;

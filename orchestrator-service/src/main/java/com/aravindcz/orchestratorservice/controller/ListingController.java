@@ -25,14 +25,14 @@ public class ListingController {
 
 
     @GetMapping("/{listingId}")
-    public Listing getListing(@PathVariable("listingId") Long listingId){
+    public Listing getListing(@PathVariable("listingId") String listingId){
 
         return listingService.readListing(listingId);
 
     }
 
     @PutMapping("/{listingId}")
-    public String updateListing(@PathVariable("listingId") Long listingId, @RequestBody ListingDTO listingDTO){
+    public String updateListing(@PathVariable("listingId") String listingId, @RequestBody ListingDTO listingDTO){
 
         listingService.updateListing(listingId, listingDTO);
         return "Listing successfully updated";

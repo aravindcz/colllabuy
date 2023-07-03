@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ListingRabbitMQDTO implements Serializable {
 
-    private Long id;
+    private String id;
     private String name;
     private String description;
 
