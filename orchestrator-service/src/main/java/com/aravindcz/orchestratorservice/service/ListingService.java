@@ -27,13 +27,13 @@ public class ListingService {
 
     public Listing createListing(ListingDTO listingDTO){
 
-        return restTemplate.postForObject("http://localhost:8082/listing",listingDTO,Listing.class);
+        return restTemplate.postForObject("http://listing-service/listing",listingDTO,Listing.class);
 
     }
 
     public Listing readListing(String listingId){
 
-        return restTemplate.getForObject("http://localhost:8082/listing/"+listingId,Listing.class);
+        return restTemplate.getForObject("http://listing-service/listing/"+listingId,Listing.class);
 
     }
 

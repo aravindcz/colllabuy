@@ -2,6 +2,7 @@ package com.aravindcz.orchestratorservice.service;
 
 
 import com.aravindcz.orchestratorservice.client.CustomerClient;
+import com.aravindcz.orchestratorservice.client.CustomerFeignClient;
 import com.aravindcz.orchestratorservice.dto.CustomerDTO;
 import com.aravindcz.orchestratorservice.model.Customer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class CustomerService {
 
     @Autowired
-    private CustomerClient customerClient;
+    private CustomerFeignClient customerClient;
 
 
     public Customer createCustomer(CustomerDTO customerDTO){
