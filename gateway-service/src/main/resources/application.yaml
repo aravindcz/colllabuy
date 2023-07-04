@@ -1,0 +1,25 @@
+eureka:
+  client:
+    preferSameZoneEureka: true
+    region: region1
+    serviceUrl:
+      - zone1: http://localhost:8761/eureka/
+      - zone2: http://localhost:8762/eureka/
+    availabilityZones:
+      region1: zone1,zone2
+
+server:
+  port: 9000
+spring:
+  application:
+    name: gateway-service
+  profiles:
+    active: zone2
+  cloud:
+    gateway:
+      routes:
+        - id: orchestrator-service
+          uri: lb://orchestrator-service
+          predicates:
+            - Path=/customer/**, /listing/**
+

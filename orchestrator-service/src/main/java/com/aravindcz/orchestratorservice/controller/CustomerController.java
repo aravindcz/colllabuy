@@ -5,12 +5,15 @@ import com.aravindcz.orchestratorservice.dto.CustomerDTO;
 import com.aravindcz.orchestratorservice.model.Customer;
 import com.aravindcz.orchestratorservice.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
 
+    @Value("${eureka.instance.metadataMap.zone}")
+    private String zone;
 
     @Autowired
     private CustomerService customerService;
@@ -18,6 +21,7 @@ public class CustomerController {
     @PostMapping("")
     public Customer createCustomer(@RequestBody CustomerDTO customerDTO){
 
+        System.out.println(zone);
         return customerService.createCustomer(customerDTO);
 
     }
